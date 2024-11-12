@@ -145,7 +145,7 @@ export class Rede{
         let gap = 80
         if(align==='right'){
             x = canvas.width-x-nodesRadius*2*(this.hiddenLayers.length+2)*scale-gap*(this.hiddenLayers.length+2)*scale
-            console.log(x)
+            // console.log(x)
         }
         ctx.save()
         ctx.translate(x,y)

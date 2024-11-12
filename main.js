@@ -12,6 +12,7 @@ const ctx = canvas.getContext('2d')
 let global = new Global()
 var spawner
 let gen =1 
+const step = 5
 let contagenspawn=0
 function spawnar(){
 
@@ -28,10 +29,10 @@ global.parallaxs.push(cidade)
 const nuvem = new Parallax("./assets/imgs/nuvem.png",.1,600,canvas,global)
 global.parallaxs.push(nuvem)
 
-let numberOfMutation = 27
+let numberOfMutation = 50
+let bests = []
 
-
-let population = 100
+let population = 1000
 for (let i = 0; i < population; i++) {
     global.players.push(new Player(canvas,global))   
 }
@@ -54,7 +55,7 @@ window.addEventListener('load',()=>{
 })
 function main(){
     contagenspawn+=1
-    if(contagenspawn>125){
+    if(contagenspawn>60){
         spawnar()
     }
     ctx.clearRect(0,0,canvas.width,canvas.height)
@@ -63,13 +64,22 @@ function main(){
     arbusto.draw()
     let best = -1
     let bestPlayer = null
-    for (const player of global.players){
-        player.draw()
+    for (let i = 0; i < global.players.length; i++) {
+        const player = global.players[i];
+        if(player.draw() === 'kkk'){
+            i--
+            global.mortos.push(player)
+        }
         if(player.fit>best){
             best = player.fit
             bestPlayer = player
             player.isBest = true
         }
+        // if(global.players.length==5 && bests.length==0){
+        //     for (const element of global.players) {
+        //         bests.push(element)
+        //     }
+        // }
     }
     global.updateCanos()
     chao.draw()
@@ -111,14 +121,30 @@ function main(){
     // ctx.lineTo(bestPlayer.pos.x+bestPlayer.distX,bestPlayer.pos.y+bestPlayer.distY)
     // ctx.stroke()
     bestPlayer.drawBest()
-    bestPlayer.rede.draw(canvas,10,10,.1,'right')
-    if(global.mortos.length>=global.players.length){
-        global.players=[]
+    bestPlayer.rede.draw(canvas,10,10,.5,'right')
+    if(global.players.length==0){
         global.canos=[]
-        const step = 5
+        // console.log(global.mortos)
+        for (let i = 0; i < step; i++) {
+            let max = -99999
+            let index = 0
+            for (let j = 0; j < global.mortos.length; j++) {
+                const element = global.mortos[j];
+                if(element.fit>max){
+                    index=j
+                    max=element.fit
+                }
+            }
+            bests.push(global.mortos[index])
+            global.mortos.splice(index,1)
+            
+        }
+        // console.log(bests)
+        // console.log(bests)
+        
         for (let j = 0; j < step; j++) {
             for (let i = 0+j; i < population; i+=step) {
-                global.players.push(new Player(canvas,global,global.mortos[j].rede))   
+                global.players.push(new Player(canvas,global,bests[j].rede))   
             }
             // console.log(global.mortos[j].rede)
         }
@@ -133,13 +159,15 @@ function main(){
         clearTimeout(spawner)
         spawnar()
         // global.gravity=.5
-        global.mortos=[]
+        // global.mortos=[]
         gen+=1
+        bests=[]
         oo.innerHTML='Gen: '+gen+', '+numberOfMutation
         numberOfMutation*=0.99
-        if(numberOfMutation<2){
-            numberOfMutation=2
+        if(numberOfMutation<5){
+            numberOfMutation=5
         }
+        global.mortos=[]
         
     }
     // global.gravity*=1.001

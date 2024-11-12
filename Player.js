@@ -34,23 +34,35 @@ export class Player extends AnimatedObject{
         }else{
             this.rede = new Rede({
                 header:'first',
-                entrada: 3,
-                hidden: [3],
-                saida: 1
+                entrada: 4,
+                hidden: [6],
+                saida: 3
             })
         }
     }
+    frente(){
+        if(this.life>0){
+            this.pos.x+=this.global.speed
+            this.fit+=this.global.speed
+        }
+    }
+    tras(){
+        if(this.life>0){
+            this.pos.x-=this.global.speed
+            this.fit-=this.global.speed
+        }
+    }
     pulo(){
-        if(this.pos.y>0&&this.life>0){
+        if(this.pos.x>0&&this.life>0){
             this.speedY=-8        
         }
     }
     #move(){
         this.speedY+=this.global.gravity
-        if(this.angle<Math.PI/180*50&&this.speedY>0){
+        if(this.angle<Math.PI/180*0&&this.speedY>0){
             this.angle+=this.speedY/100
         }
-        if(this.angle>Math.PI/180*-50&&this.speedY<0){
+        if(this.angle>Math.PI/180*-0&&this.speedY<0){
             this.angle+=this.speedY/30
         }
         this.pos.y+=this.speedY
@@ -60,9 +72,17 @@ export class Player extends AnimatedObject{
         }
     }
     draw(){
+        let kkk = false
         if(this.distX!==false&&this.distY!==false){
-            if(this.rede.execute([this.distX, this.distY,this.canospeed])[0].valor>0){
+            let result = this.rede.execute([this.distX, this.distY, this.canospeed, this.pos.x])
+            if(result[0].valor>0){
                 this.pulo()
+            }
+            if(result[1].valor>0){
+                this.frente()
+            }
+            if(result[2].valor>0){
+                this.tras()
             }
         }
         if(this.isMoving){
@@ -75,39 +95,37 @@ export class Player extends AnimatedObject{
         this.collisionShape.update(this.pos.x,this.pos.y,(this.wSprite-20)*this.scale,(this.hSprite-20)*this.scale,this.angle)
         this.ctx.beginPath();
         this.ctx.save()
-        if(this.isBest){
-            this.ctx.filter='brightness(10)'
-        }
         this.ctx.translate(this.pos.x,this.pos.y)
         if(this.life>0){
-            this.fit+=this.global.speed
+            this.fit+=this.global.speed*1.1
+            if(this.pos.x<50||this.pos.x>this.canvas.width-100){
+                this.life=0
+            }
             
         }else{
-            if(!this.global.mortos.includes(this)){
-                this.global.mortos.unshift(this)
-            }
+                this.global.players.splice(this.global.players.indexOf(this),1)
+                kkk = true
+
         }
-        if(this.isBest||true){
+        if(this.isBes||true){
             this.ctx.rotate(this.angle)
             this.ctx.drawImage(this.image,this.posIniX,this.posIniY,this.wSprite,this.hSprite,this.wSprite/-2*this.scale,this.hSprite/-2*this.scale,this.wSprite*this.scale,this.hSprite*this.scale)
         }
         // if(this.global.mortos.includes(this)){
         //     this.ctx.fillRect(0,0,50,50)
         // }
-        if(this.lol){
-            this.ctx.fillStyle = '#f00'
-            this.ctx.fillRect(0,0,50,50)
-
-        }
         
         this.ctx.restore()
         this.collisionShape.draw('#0f0')
+        if(kkk){
+            return 'kkk'
+        }
     }
     drawBest(){
         this.ctx.beginPath();
         this.ctx.save()
         if(this.isBest){
-            this.ctx.filter='brightness(10)'
+            this.ctx.filter='brightness(0)'
         }
         this.ctx.translate(this.pos.x,this.pos.y)
         this.ctx.rotate(this.angle)

@@ -10,9 +10,9 @@ export class Cano extends AnimatedObject{
         this.ctx=canvas.getContext('2d')
         this.global=global
         this.scale=.7
-        this.tamHole = 150
-        this.speedy=Math.random() * (6 + 6) - 6
-        this.speedy=0
+        this.tamHole = 70
+        this.speedy=Math.floor(Math.random() * (2 + 2) - 2)
+        // this.speedy=0
         this.pos = {
             x: this.canvas.width + 400,
             y: Math.random() * (canvas.height-330 - 250) + 250
