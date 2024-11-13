@@ -32,7 +32,7 @@ global.parallaxs.push(nuvem)
 let numberOfMutation = 50
 let bests = []
 
-let population = 1000
+let population = 100
 for (let i = 0; i < population; i++) {
     global.players.push(new Player(canvas,global))   
 }
