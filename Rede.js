@@ -100,20 +100,30 @@ export class Rede{
             const layer = this.hiddenLayers[i];
             for (let j = 0; j < layer.length; j++) {
                 const node = layer[j];
-                if(node.valor>0){
-                    for (let k = 0; k < node.pesos.length; k++) {
-                        this.hiddenLayers[i+1][k].valor+=node.valor*node.pesos[k]
-                    }
+                if(node.valor<0){
+                    node.valor = 0
+                }
+                if(node.valor>10000){
+                    node.valor = 10000
+                }
+                for (let k = 0; k < node.pesos.length; k++) {
+                    this.hiddenLayers[i+1][k].valor+=node.valor*node.pesos[k]
                 }
             }
         }
         for (let j = 0; j < this.hiddenLayers[this.hiddenLayers.length-1].length; j++) {
             const node = this.hiddenLayers[this.hiddenLayers.length-1][j];
-            if(node.valor>0){
-                for (let k = 0; k < node.pesos.length; k++) {
-                    this.saidas[k].valor+=node.valor*node.pesos[k]
-                }
+            if(node.valor<0){
+                node.valor = 0
             }
+            if(node.valor>10000){
+                node.valor = 10000
+            }
+            
+            for (let k = 0; k < node.pesos.length; k++) {
+                this.saidas[k].valor+=node.valor*node.pesos[k]
+            }
+            
         }
         return this.saidas
     }
@@ -158,7 +168,7 @@ export class Rede{
                         ctx.strokeStyle='#f00'
                         ctx.lineWidth = 3
                     }else{
-                        ctx.strokeStyle='#000'
+                        ctx.strokeStyle='#00000000'
                         ctx.lineWidth = 1
                     }
                     ctx.moveTo(0+nodesRadius,0+nodesRadius+nodesRadius*(i*2)+gap*i)
@@ -202,7 +212,7 @@ export class Rede{
                             ctx.strokeStyle='#f00'
                             ctx.lineWidth = 3
                         }else{
-                            ctx.strokeStyle='#000'
+                            ctx.strokeStyle='#00000000'
                             ctx.lineWidth = 1
                         }
                         ctx.moveTo(0+nodesRadius+(nodesRadius*2*(i+1)+gap*(i+1)),0+nodesRadius+nodesRadius*(j*2)+gap*j)

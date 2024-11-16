@@ -54,17 +54,17 @@ export class Player extends AnimatedObject{
     }
     pulo(){
         if(this.pos.x>0&&this.life>0){
-            this.speedY=-8        
+            this.speedY=-8
         }
     }
     #move(){
         this.speedY+=this.global.gravity
-        if(this.angle<Math.PI/180*0&&this.speedY>0){
-            this.angle+=this.speedY/100
-        }
-        if(this.angle>Math.PI/180*-0&&this.speedY<0){
-            this.angle+=this.speedY/30
-        }
+        // if(this.angle<Math.PI/180*0&&this.speedY>0){
+        //     this.angle+=this.speedY/100
+        // }
+        // if(this.angle>Math.PI/180*-0&&this.speedY<0){
+        //     this.angle+=this.speedY/30
+        // }
         this.pos.y+=this.speedY
         if(this.pos.y>this.canvas.height){
             this.pos.y=this.canvas.height

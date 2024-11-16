@@ -14,9 +14,11 @@ var spawner
 let gen =1 
 const step = 5
 let contagenspawn=0
+let quantos = Math.floor(Math.random() * (120 - 50) + 50)
 function spawnar(){
 
     global.canos.push(new Cano(canvas,global))
+    quantos = Math.floor(Math.random() * (120 - 50) + 50)
     contagenspawn=0
 }
 const chao = new Parallax("./assets/imgs/chao.png",1,80,canvas,global)
@@ -32,7 +34,7 @@ global.parallaxs.push(nuvem)
 let numberOfMutation = 50
 let bests = []
 
-let population = 100
+let population = 2000
 for (let i = 0; i < population; i++) {
     global.players.push(new Player(canvas,global))   
 }
@@ -53,6 +55,7 @@ spawnar()
 window.addEventListener('load',()=>{
     window.requestAnimationFrame(main)
 })
+
 function main(){
     contagenspawn+=1
     if(contagenspawn>60){
@@ -162,8 +165,8 @@ function main(){
         // global.mortos=[]
         gen+=1
         bests=[]
-        oo.innerHTML='Gen: '+gen+', '+numberOfMutation
-        numberOfMutation*=0.99
+        oo.innerHTML='Gen: '+gen+', mutações: '+numberOfMutation
+        numberOfMutation*=0.996
         if(numberOfMutation<5){
             numberOfMutation=5
         }
