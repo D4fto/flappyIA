@@ -1,6 +1,6 @@
 export class Global{
     constructor(){
-        this.speedIni=10
+        this.speedIni=15
         this.speed=this.speedIni
         this.gravity=.5
         this.canos = []

@@ -11,7 +11,7 @@ export class Cano extends AnimatedObject{
         this.global=global
         this.scale=.7
         this.tamHole = 70
-        this.speedy=Math.floor(Math.random() * (2 + 2) - 2)
+        this.speedy=5
         // this.speedy=0
         this.pos = {
             x: this.canvas.width + 400,

@@ -13,12 +13,13 @@ let global = new Global()
 var spawner
 let gen =1 
 const step = 5
+let melhorRede = null
 let contagenspawn=0
-let quantos = Math.floor(Math.random() * (120 - 50) + 50)
+let quantos = Math.floor(55)
 function spawnar(){
 
     global.canos.push(new Cano(canvas,global))
-    quantos = Math.floor(Math.random() * (120 - 50) + 50)
+    quantos = Math.floor(55)
     contagenspawn=0
 }
 const chao = new Parallax("./assets/imgs/chao.png",1,80,canvas,global)
@@ -31,12 +32,12 @@ global.parallaxs.push(cidade)
 const nuvem = new Parallax("./assets/imgs/nuvem.png",.1,600,canvas,global)
 global.parallaxs.push(nuvem)
 
-let numberOfMutation = 50
+let numberOfMutation = 0
 let bests = []
 
-let population = 2000
+let population = 1000
 for (let i = 0; i < population; i++) {
-    global.players.push(new Player(canvas,global))   
+    global.players.push(new Player(canvas,global,{"changeValue":500,"entradas":[{"valor":62.13818901845889,"pesos":[-457.1565344378463,-60.26217930271322,662.9595884918539,-309.92678909281517,84.44519610089995,-204.06642910203956]},{"valor":-7.591060427379148,"pesos":[-125.91167968593368,391.95613385449917,480.3205739642058,-174.63051584887126,865.7313362776018,-3137.3712657378965]},{"valor":-5,"pesos":[-238.02818441015162,-361.01557160214884,428.23103934086157,-712.2612637713898,-764.8710437159276,-471.95333245341374]},{"valor":404.53742652155256,"pesos":[759.2115403513296,-68.52241723456878,-0.5400983687377536,-444.58477225599626,-594.991453594602,-41.03589979710988]},{"valor":916.6618109815411,"pesos":[715.798383981745,-773.1351442650945,-335.1648204752886,43.62209755782777,263.06437329490853,11.334809512505384]}],"hiddenLayers":[[{"valor":10000,"pesos":[-511.45454569079885,-482.2850164428179,-120.63626205942148,-770.8621662593908,44.19191332501137,783.8471859624614]},{"valor":0,"pesos":[-966.4317762555128,-218.4374178332571,253.53345062691318,105.26969674211895,884.0816154866577,-260.2817952589728]},{"valor":0,"pesos":[-265.293271894221,-841.3700660617125,-446.74749406626546,-848.5400780435275,266.63306268508177,-469.92688268515974]},{"valor":0,"pesos":[712.4677837600623,24.568969392152013,275.200250499827,828.0759519319382,-269.61539585640725,-762.469337109981]},{"valor":2944.561277796136,"pesos":[-897.3260080149923,901.9826386025688,-1009.9464028254238,1475.1072363849757,348.1926290972656,-955.6371779586052]},{"valor":7285.052895686824,"pesos":[-338.71752606709424,485.4810257137178,-1174.9362237716884,929.2100649893072,-1632.039054049973,808.5996137331385]}],[{"valor":0,"pesos":[268.3215413167921,402.7418626194339,1087.618157184019]},{"valor":10000,"pesos":[-233.79384610692446,405.356547124557,680.1698933013165]},{"valor":0,"pesos":[763.1563517976456,382.7675287925361,834.1974229642522]},{"valor":10000,"pesos":[-241.21799173449935,-903.1671758050761,343.38279915495553]},{"valor":0,"pesos":[-741.5600306896171,170.6064863631858,672.1424474525768]},{"valor":10000,"pesos":[588.5680858763673,1118.2677186820458,-956.9910174136886]}]],"saidas":[{"valor":1135562.4803494345},{"valor":6204570.9000152685},{"valor":665616.7504258342}]}))   
 }
 redimensionar()
 
@@ -58,7 +59,7 @@ window.addEventListener('load',()=>{
 
 function main(){
     contagenspawn+=1
-    if(contagenspawn>60){
+    if(contagenspawn>quantos){
         spawnar()
     }
     ctx.clearRect(0,0,canvas.width,canvas.height)
@@ -122,6 +123,7 @@ function main(){
     // ctx.moveTo(bestPlayer.pos.x+bestPlayer.distX,bestPlayer.pos.y)
     // ctx.strokeStyle = '#f00'
     // ctx.lineTo(bestPlayer.pos.x+bestPlayer.distX,bestPlayer.pos.y+bestPlayer.distY)
+    oo.innerHTML='Gen: '+gen+', Individuos: '+global.players.length
     // ctx.stroke()
     bestPlayer.drawBest()
     bestPlayer.rede.draw(canvas,10,10,.5,'right')
@@ -142,6 +144,7 @@ function main(){
             global.mortos.splice(index,1)
             
         }
+        melhorRede = bests[0].rede
         // console.log(bests)
         // console.log(bests)
         
@@ -165,11 +168,9 @@ function main(){
         // global.mortos=[]
         gen+=1
         bests=[]
-        oo.innerHTML='Gen: '+gen+', mutações: '+numberOfMutation
-        numberOfMutation*=0.996
-        if(numberOfMutation<5){
-            numberOfMutation=5
-        }
+        
+        numberOfMutation*=0.99
+        // if(numberOfMutation<5){Zz
         global.mortos=[]
         
     }
@@ -180,11 +181,32 @@ window.addEventListener('resize',()=>{
     redimensionar()
 })
 window.addEventListener('keydown',(event)=>{
-    if(event.keyCode == 32){
-        for (const player of global.players) {
-            if(player.life>0){
-                player.pulo()
-            }
-        }
-    }
+    // if(event.keyCode == 32){
+    //     for (const player of global.players) {
+    //         if(player.life>0){
+    //             player.pulo()
+    //         }
+    //     }
+    // }
 })
+document.getElementById('baixarIA').addEventListener('click', function() {
+    // Conteúdo do arquivo JavaScript
+    const conteudo = `${JSON.stringify(melhorRede)};`;
+
+    // Criando um Blob com o conteúdo JavaScript
+    const blob = new Blob([conteudo], { type: 'application/javascript' });
+
+    // Criando uma URL para o Blob
+    const url = URL.createObjectURL(blob);
+
+    // Criando um link de download
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'MelhorRede.js'; // Nome do arquivo
+
+    // Simulando o clique no link para iniciar o download
+    link.click();
+
+    // Liberando o objeto URL após o download
+    URL.revokeObjectURL(url);
+});

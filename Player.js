@@ -22,6 +22,7 @@ export class Player extends AnimatedObject{
         this.speedY= 0
         this.isMoving=true
         this.fit=0
+        this.distChao=canvas.height-80-this.pos.y
         this.canospeed=0
         this.isBest=false
         this.collisionShape = new CollisionShape(canvas,this.pos.x,this.pos.y,(this.wSprite-100)*this.scale,(this.hSprite-100)*this.scale,this.angle)
@@ -34,35 +35,35 @@ export class Player extends AnimatedObject{
         }else{
             this.rede = new Rede({
                 header:'first',
-                entrada: 4,
-                hidden: [6],
+                entrada: 5,
+                hidden: [6,6],
                 saida: 3
             })
         }
     }
     frente(){
         if(this.life>0){
-            this.pos.x+=this.global.speed
-            this.fit+=this.global.speed
+            this.pos.x+=this.global.speed*1.5
+            this.fit+=this.global.speed*1.5
         }
     }
     tras(){
         if(this.life>0){
-            this.pos.x-=this.global.speed
-            this.fit-=this.global.speed
+            this.pos.x-=this.global.speed*1.5
+            this.fit-=this.global.speed*1.5
         }
     }
     pulo(){
         if(this.pos.x>0&&this.life>0){
-            this.speedY=-8
+            this.speedY=-10
         }
     }
     #move(){
         this.speedY+=this.global.gravity
-        // if(this.angle<Math.PI/180*0&&this.speedY>0){
+        // if(this.angle<Math.PI/180*45&&this.speedY>0){
         //     this.angle+=this.speedY/100
         // }
-        // if(this.angle>Math.PI/180*-0&&this.speedY<0){
+        // if(this.angle>Math.PI/180*-45&&this.speedY<0){
         //     this.angle+=this.speedY/30
         // }
         this.pos.y+=this.speedY
@@ -70,13 +71,14 @@ export class Player extends AnimatedObject{
             this.pos.y=this.canvas.height
             this.speedY=0
         }
+        this.distChao=canvas.height-80-this.pos.y
     }
     draw(){
         let kkk = false
         if(this.distX!==false&&this.distY!==false){
-            let result = this.rede.execute([this.distX, this.distY, this.canospeed, this.pos.x])
+            let result = this.rede.execute([this.distX, this.distY, this.canospeed, this.distChao, this.pos.x])
             if(result[0].valor>0){
-                this.pulo()
+                 this.pulo()
             }
             if(result[1].valor>0){
                 this.frente()

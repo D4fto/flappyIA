@@ -153,6 +153,7 @@ export class Rede{
         let ctx = canvas.getContext('2d')
         let nodesRadius=40
         let gap = 80
+        
         if(align==='right'){
             x = canvas.width-x-nodesRadius*2*(this.hiddenLayers.length+2)*scale-gap*(this.hiddenLayers.length+2)*scale
             // console.log(x)
@@ -166,10 +167,10 @@ export class Rede{
                     ctx.beginPath()
                     if(this.entradas[i].valor*this.entradas[i].pesos[k]>0){
                         ctx.strokeStyle='#f00'
-                        ctx.lineWidth = 3
+                        ctx.lineWidth = Math.abs(this.entradas[i].pesos[k]/200)
                     }else{
-                        ctx.strokeStyle='#00000000'
-                        ctx.lineWidth = 1
+                        ctx.strokeStyle='#000000'
+                        ctx.lineWidth = Math.abs(this.entradas[i].pesos[k]/200)
                     }
                     ctx.moveTo(0+nodesRadius,0+nodesRadius+nodesRadius*(i*2)+gap*i)
                     ctx.lineTo(nodesRadius*(3)+gap,nodesRadius+(nodesRadius*k*2)+(gap*k))
@@ -210,10 +211,13 @@ export class Rede{
                         ctx.beginPath()
                         if(this.hiddenLayers[i][j].valor*this.hiddenLayers[i][j].pesos[k]>0){
                             ctx.strokeStyle='#f00'
-                            ctx.lineWidth = 3
+                            ctx.lineWidth = Math.abs(this.hiddenLayers[i][j].pesos[k]/200)
+                        }else if(this.hiddenLayers[i][j].valor*this.hiddenLayers[i][j].pesos[k]<0){
+                            ctx.strokeStyle='#000000'
+                            ctx.lineWidth = Math.abs(this.hiddenLayers[i][j].pesos[k]/200)
                         }else{
                             ctx.strokeStyle='#00000000'
-                            ctx.lineWidth = 1
+                            ctx.lineWidth = Math.abs(this.hiddenLayers[i][j].pesos[k]/200)
                         }
                         ctx.moveTo(0+nodesRadius+(nodesRadius*2*(i+1)+gap*(i+1)),0+nodesRadius+nodesRadius*(j*2)+gap*j)
                         ctx.lineTo(0+nodesRadius*3+gap+(nodesRadius*2*(i+1)+gap*(i+1)),nodesRadius+(nodesRadius*k*2)+(gap*k))
