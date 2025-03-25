@@ -130,6 +130,7 @@ export class Rede{
     mutateRandomWeight(typeOfMutation){
         let index = Math.floor(Math.random() * (this.hiddenLayers.length+1))
         let pesoArr
+        
         if(index===0){
             pesoArr = this.entradas[Math.floor(Math.random() * (this.entradas.length))].pesos
         }
