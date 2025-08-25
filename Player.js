@@ -27,6 +27,7 @@ export class Player extends AnimatedObject{
         this.isBest=false
         this.collisionShape = new CollisionShape(canvas,this.pos.x,this.pos.y,(this.wSprite-100)*this.scale,(this.hSprite-100)*this.scale,this.angle)
         this.life=1
+        
         if(rede!=0){
             this.rede = new Rede({
                 header:'child',
