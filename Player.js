@@ -35,23 +35,36 @@ export class Player extends AnimatedObject{
         }else{
             this.rede = new Rede({
                 header:'first',
-                entrada: 5,
-                hidden: [6,6],
-                saida: 3
+                entrada: 6,
+                hidden: [7,7,5],
+                saida: 4
             })
         }
     }
     frente(){
         if(this.life>0){
-            this.pos.x+=this.global.speed*1.5
-            this.fit+=this.global.speed*1.5
+            this.pos.x+=Math.cos(this.angle)*this.global.speed*1.5
+            this.pos.y-=Math.sin(this.angle)*this.global.speed*1.5
+            this.fit+=Math.cos(this.angle)*this.global.speed*1.5
         }
     }
     tras(){
         if(this.life>0){
-            this.pos.x-=this.global.speed*1.5
-            this.fit-=this.global.speed*1.5
+            this.pos.x-=Math.cos(this.angle)*this.global.speed*1.5
+            this.pos.y-=Math.sin(this.angle)*this.global.speed*1.5
+            this.fit-=Math.cos(this.angle)*this.global.speed*1.5
         }
+    }
+    hor(){
+        if(this.life>0){
+            this.angle+=Math.PI/180*4
+        }
+    }
+    antihor(){
+        if(this.life>0){
+            this.angle-=Math.PI/180*4
+        }
+        
     }
     pulo(){
         if(this.pos.x>0&&this.life>0){
@@ -76,16 +89,20 @@ export class Player extends AnimatedObject{
     draw(){
         let kkk = false
         if(this.distX!==false&&this.distY!==false){
-            let result = this.rede.execute([this.distX, this.distY, this.canospeed, this.distChao, this.pos.x])
+            let result = this.rede.execute([this.distX, this.distY, this.canospeed, this.distChao, this.pos.x, this.angle])
             if(result[0].valor>0){
-                 this.pulo()
+                this.hor()
             }
             if(result[1].valor>0){
-                this.frente()
+                this.antihor()
             }
             if(result[2].valor>0){
+                this.frente()
+            }
+            if(result[3].valor>0){
                 this.tras()
             }
+            
         }
         if(this.isMoving){
             this.#move()
