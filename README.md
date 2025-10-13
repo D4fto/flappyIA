@@ -38,10 +38,8 @@ Watch as a population of AI birds learns to navigate the challenging pipes, cons
 To run this project, you will need:
 
 - **A Modern Web Browser**: Google Chrome, Mozilla Firefox, Microsoft Edge, or Safari, with JavaScript enabled.
-- **(Optional) A Local Web Server**: While `index.html` might run directly in some browsers, it's often recommended to serve local web projects via a simple HTTP server (e.g., `python -m http.server` or `live-server` npm package) to avoid potential CORS or module loading issues.
-- **(Optional) Python 3.x**: If you wish to run the `geralPython.py` script.
 
-## 5. Detailed Step-by-Step Installation Guide
+## 5. Installation Guide
 
 This project is a client-side web application and does not require a complex build process or backend server (for the game itself).
 
@@ -106,7 +104,7 @@ Key parameters you might want to adjust for experimentation are found primarily 
 
 To modify any of these, you would edit the respective JavaScript files and refresh your browser.
 
-## 8. Project Structure Explanation
+## 8. Project Structure
 
 The project is structured into several JavaScript modules, image assets, and a few auxiliary Python scripts.
 
