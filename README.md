@@ -154,4 +154,4 @@ This project does not currently have formal contributing guidelines. However, we
 
 ## 10. License Information
 
-No explicit license file (`LICENSE`) was found within the codebase. Therefore, the copyright status and licensing terms for this project are currently unspecified. Users should assume standard copyright restrictions apply. If you plan to use, distribute, or modify this code, it is recommended to contact the original author for clarification on licensing.
+MIT LICENSE
